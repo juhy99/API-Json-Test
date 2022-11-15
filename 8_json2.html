@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>json2</title>
+    <script>
+        function fetchAPI(){
+            return fetch('http://apis.data.go.kr/1250000/tvprgm/getTvprgm?ServiceKey=8Hren%2B08jbStHSRmf%2BCmSzfvj9hOROAwfHPAMdzMKl45oLIvBqh3SDWSAkSbkfpq8L%2FVLw1If5NA5PoYTuG32g%3D%3D&pageNo=1&numOfRows=10&keyword=%ED%86%B5%EC%9D%BC&bgng_ymd=20190101&end_ymd=20201220&bgng_time=1200&end_time=1800')
+            .then((response)=> response.json())
+            .then((data)=>data);
+        }
+
+        fetchAPI().then((datas) => {
+            console.log(datas.items);
+            showDatas(datas.items);
+        });
+
+        function showDatas(datas){
+            const ulElement = document.querySelector('#dataseries');
+            ulElement.innerHTML = datas.map((data) => setLiElemnet(data)).join('');
+        }
+
+        function setLiElemnet(data){
+            return `<tr>
+                        <th>날짜</th>
+                        <th>시간</th>
+                        <th>상세 설명</th>
+                    </tr>
+                    <tr>
+                        <td>${data.frmtn_ymd}</td>
+                        <td>${data.frmtn_time}</td>
+                        <td>${data.sj}</td>
+                    </tr>`;
+        }
+    </script>
+    <style>
+        td{
+            border: 1px solid black;
+            width: 1100px;
+            height: 100px;
+            text-align: center;
+            color: beige;
+            background-color: black;
+        }
+        th{
+            border: 1px solid black;
+            width: 1100px;
+            height: 100px;
+            text-align: center;
+            border-color: deepskyblue;
+            color: deeppink;
+        }
+    </style>
+</head>
+<body>
+    <h2>json</h2>
+
+    <table id="dataseries"> 
+        
+    </table>
+</html>
